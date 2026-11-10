@@ -1,0 +1,2 @@
+- All business contact info, metrics, demo projects, testimonials and FAQs live in `src/data/*`; never hardcode them in components — client will replace demo content.
+- Enquiry form posts to Web3Forms using `VITE_WEB3FORMS_ACCESS_KEY`; when missing it shows an "not switched on" message rather than faking success.
