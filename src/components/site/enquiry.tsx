@@ -33,9 +33,7 @@ export function EnquirySection() {
     if (!data.get("requirement")) errs["requirement"] = "Please choose a requirement.";
     setErrors(errs);
     if (Object.keys(errs).length) return;
-   // const accessKey = import.meta.env["VITE_WEB3FORMS_ACCESS_KEY"];
-        const accessKey = "3438dbc9-76ba-4b45-b45c-9e8c033eb20e";
-
+    const accessKey = import.meta.env["VITE_WEB3FORMS_ACCESS_KEY"];
     if (!accessKey) { setStatus("unconfigured"); return; }
 
     setStatus("loading");
