@@ -64,7 +64,7 @@ export function ProjectGallery({ items = allProjects, title = "Selected Projects
   return (
     <section className="bg-card py-24 md:py-32">
       <div className="container-x">
-        <SectionHead eyebrow="Portfolio" title={title} copy="Demo projects shown for this preview — to be replaced with the client's completed work." />
+        <SectionHead eyebrow="Portfolio" title={title} />
         <div className="mt-14 grid auto-rows-[260px] grid-cols-1 gap-5 md:auto-rows-[240px] md:grid-cols-12 md:gap-6">
           {items.map((p, k) => (
             <Reveal key={p.id} delay={(k % 3) * 80} className={cn(spans[k % spans.length])}>
@@ -115,7 +115,6 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
                 <div><dt className="text-muted-foreground">Year</dt><dd className="font-semibold">{project.year}</dd></div>
               </dl>
               <DialogDescription className="mt-6 flex-1 text-base leading-relaxed text-muted-foreground">{project.description}</DialogDescription>
-              <p className="mt-4 text-xs text-muted-foreground">Demo project for preview purposes.</p>
               <Button asChild variant="ink" size="xl" className="mt-6"><Link to="/contact" onClick={onClose}>Enquire About a Similar Project</Link></Button>
             </div>
           </div>

@@ -29,12 +29,11 @@ export function whatsappLink(message: string = whatsappMessages.general) {
 
 export const telLink = `tel:+91${business.phone}`;
 
-// DEMO metrics — replace with figures confirmed by the client.
 export const trustMetrics = [
-  { value: "15+", label: "Years of experience", demo: false },
-  { value: "55+", label: "Banking & financial connections", demo: false },
-  { value: "Multiple", label: "Loan solutions", demo: false },
-  { value: "Hyderabad", label: "& surrounding areas", demo: false },
+  { value: "15+", label: "Years of experience" },
+  { value: "55+", label: "Banking & financial connections" },
+  { value: "Multiple", label: "Loan solutions" },
+  { value: "Hyderabad", label: "& surrounding areas" },
 ];
 
 export const disclaimer =

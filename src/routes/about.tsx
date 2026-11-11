@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AboutSection, DreamStorySection, TestimonialsSection, TrustSection, WhyUsSection } from "@/components/site/sections";
+import { AboutSection, DreamStorySection, TrustSection, WhyUsSection } from "@/components/site/sections";
 import { SiteShell, PageHero } from "@/components/site/layout";
 import { images } from "@/data/content";
 import { pageSeo } from "@/lib/seo";
@@ -23,7 +23,6 @@ function Page() {
       <TrustSection />
       <WhyUsSection />
       <DreamStorySection />
-      <TestimonialsSection />
     </SiteShell>
   );
 }

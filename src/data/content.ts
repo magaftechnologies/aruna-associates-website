@@ -121,13 +121,6 @@ export const whyUs = [
   { title: "Home Journey Support", copy: "Finance, construction and interiors under one broader journey." },
 ];
 
-// DEMO testimonials — placeholders only. Replace with real, consented customer feedback.
-export const testimonials = [
-  { quote: "Aruna Associates guided us through the home loan process and explained the next steps clearly.", name: "Demo Customer", context: "Home Loan · Hyderabad", demo: true },
-  { quote: "We had questions about using our property for finance. The team explained the options patiently.", name: "Demo Customer", context: "Mortgage Loan · Malkajgiri", demo: true },
-  { quote: "From discussing finance to planning the construction, it felt like one connected conversation.", name: "Demo Customer", context: "Construction · Kompally", demo: true },
-];
-
 export const faqs = [
   { q: "What types of loan solutions do you assist with?", a: "We assist customers in exploring Home Loans, Mortgage Loans, Project Loans, MSME Loans, Loan Balance Transfers and Top-Up Loans. The options available to you depend on your profile and the applicable lender's criteria." },
   { q: "Can I enquire if I already own land?", a: "Yes. If you own land and are considering building on it, you can discuss both the financing and construction side of your plan with us." },

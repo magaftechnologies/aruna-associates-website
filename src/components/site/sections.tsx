@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, ArrowRight, Quote } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Reveal, SectionHead, Logo } from "./layout";
@@ -8,22 +8,21 @@ import { trustMetrics, whatsappLink, whatsappMessages, business, telLink } from 
 import { Phone, MapPin, Clock } from "lucide-react";
 import {
   intents, loanServices, loanJourney, dreamStory, constructionStages, interiorCategories,
-  whyUs, testimonials, faqs, images,
+  whyUs, faqs, images,
 } from "@/data/content";
 import { cn } from "@/lib/utils";
 
 function Counter({ value }: { value: string }) {
   const match = value.match(/^(\d+)(.*)$/);
   const ref = useRef<HTMLSpanElement>(null);
-  const [n, setN] = useState(match ? 0 : null);
+  const [n, setN] = useState<number | null>(null);
   useEffect(() => {
-    if (!match || !ref.current) return;
+    if (!match || !ref.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const target = Number(match[1]);
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) { setN(target); return; }
     const io = new IntersectionObserver(([e]) => {
       if (!e?.isIntersecting) return;
       io.disconnect();
+      setN(0);
       const t0 = performance.now();
       const tick = (t: number) => { const p = Math.min(1, (t - t0) / 1400); setN(Math.round(target * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(tick); };
       requestAnimationFrame(tick);
@@ -31,7 +30,14 @@ function Counter({ value }: { value: string }) {
     io.observe(ref.current);
     return () => io.disconnect();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  return <span ref={ref} className="tabular-nums">{match ? `${n}${match[2]}` : value}</span>;
+  return (
+    <>
+      <span className="sr-only">{value}</span>
+      <span ref={ref} aria-hidden="true" className="tabular-nums">
+        {match && n !== null ? `${n}${match[2]}` : value}
+      </span>
+    </>
+  );
 }
 
 export function TrustSection() {
@@ -316,26 +322,6 @@ export function CibilSection() {
           <Button asChild variant="ink" size="xl"><Link to="/contact">Discuss My Requirement</Link></Button>
           <p className="mt-4 text-xs text-muted-foreground">Approval is subject to lender policies and is not guaranteed.</p>
         </Reveal>
-      </div>
-    </section>
-  );
-}
-
-export function TestimonialsSection() {
-  return (
-    <section className="bg-ivory py-24 md:py-32">
-      <div className="container-x">
-        <SectionHead eyebrow="Customer voices" title="In Their Words." copy="Sample placeholders shown for this preview — to be replaced with real customer feedback." />
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {testimonials.map((t, k) => (
-            <Reveal key={k} delay={k * 90} className="flex flex-col border border-border bg-card p-8">
-              <Quote className="size-8 text-gold" />
-              <p className="mt-6 flex-1 font-display text-xl leading-snug text-charcoal">"{t.quote}"</p>
-              <p className="mt-8 text-sm font-semibold text-charcoal">— {t.name}</p>
-              <p className="text-xs text-muted-foreground">{t.context} · Sample</p>
-            </Reveal>
-          ))}
-        </div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { business } from "@/data/business";
-import { AboutSection, CibilSection, ConstructionSection, DreamStorySection, FaqSection, HaveLandSection, IntentSection, InteriorsSection, LoanJourneySection, LoanServicesSection, TestimonialsSection, TrustSection, WhyUsSection, LocationSection } from "@/components/site/sections";
+import { AboutSection, CibilSection, ConstructionSection, DreamStorySection, FaqSection, HaveLandSection, IntentSection, InteriorsSection, LoanJourneySection, LoanServicesSection, TrustSection, WhyUsSection, LocationSection } from "@/components/site/sections";
 import { HeroCarousel } from "@/components/site/hero";
 import { ProjectCarousel, ProjectGallery } from "@/components/site/projects";
 import { EnquirySection } from "@/components/site/enquiry";
@@ -58,7 +58,6 @@ function Page() {
       <AboutSection />
       <LoanJourneySection />
       <DreamStorySection />
-      <TestimonialsSection />
       <FaqSection />
       <EnquirySection />
       <LocationSection />
