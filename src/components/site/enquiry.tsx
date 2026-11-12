@@ -37,13 +37,28 @@ export function EnquirySection() {
     if (!accessKey) { setStatus("unconfigured"); return; }
 
     setStatus("loading");
-    data.append("access_key", accessKey);
-    data.append("business_name", business.name);
-    data.append("form_source", `${business.name} website enquiry form`);
-    data.append("subject", `New Enquiry — ${business.name} Website`);
-    data.append("from_name", `${business.name} Website`);
+    const payload = new FormData();
+    const fields = [
+      ["Full Name", "name"],
+      ["Mobile Number", "phone"],
+      ["Email", "email"],
+      ["Location", "location"],
+      ["Requirement", "requirement"],
+      ["Approximate Requirement", "amount"],
+      ["Message", "message"],
+    ] as const;
+    for (const [label, key] of fields) payload.append(label, String(data.get(key) ?? ""));
+    payload.append("business_name", business.name);
+    payload.append("form_source", `${business.name} website enquiry form`);
+    payload.append("access_key", accessKey);
+    payload.append("subject", `New Website Enquiry — ${business.name}`);
+    payload.append("from_name", `${business.name} — Website Enquiry`);
+    if (email) payload.append("replyto", email);
     try {
-      const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: data });
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: payload,
+      });
       const result: unknown = await res.json();
       if (res.ok && typeof result === "object" && result !== null && "success" in result && result.success === true) {
         setStatus("success");

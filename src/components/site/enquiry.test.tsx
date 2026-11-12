@@ -68,7 +68,7 @@ describe("enquiry form", () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it("sends the existing fields, blocks duplicate submits, and resets after success", async () => {
+  it("sends a structured Web3Forms payload, blocks duplicate submits, and resets after success", async () => {
     vi.stubEnv("VITE_WEB3FORMS_ACCESS_KEY", "test-access-key");
     let resolveRequest!: (response: Response) => void;
     const fetchMock = vi.fn(
@@ -108,14 +108,47 @@ describe("enquiry form", () => {
     expect(payload.get("access_key")).toBe("test-access-key");
     expect(payload.get("business_name")).toBe("Aruna Associates");
     expect(payload.get("form_source")).toBe("Aruna Associates website enquiry form");
-    expect(payload.get("name")).toBe("A Customer");
-    expect(payload.get("phone")).toBe("9030086081");
-    expect(payload.get("email")).toBe("customer@example.com");
-    expect(payload.get("location")).toBe("Hyderabad");
-    expect(payload.get("requirement")).toBe("Home Loan");
-    expect(payload.get("amount")).toBe("₹40 lakh");
-    expect(payload.get("message")).toBe("Please call me.");
+    expect(payload.get("subject")).toBe("New Website Enquiry — Aruna Associates");
+    expect(payload.get("from_name")).toBe("Aruna Associates — Website Enquiry");
+    expect(payload.get("replyto")).toBe("customer@example.com");
+    expect(payload.get("Full Name")).toBe("A Customer");
+    expect(payload.get("Mobile Number")).toBe("9030086081");
+    expect(payload.get("Email")).toBe("customer@example.com");
+    expect(payload.get("Location")).toBe("Hyderabad");
+    expect(payload.get("Requirement")).toBe("Home Loan");
+    expect(payload.get("Approximate Requirement")).toBe("₹40 lakh");
+    expect(payload.get("Message")).toBe("Please call me.");
+    expect(Array.from(payload.keys()).slice(0, 7)).toEqual([
+      "Full Name",
+      "Mobile Number",
+      "Email",
+      "Location",
+      "Requirement",
+      "Approximate Requirement",
+      "Message",
+    ]);
+    expect(payload.has("name")).toBe(false);
+    expect(payload.has("phone")).toBe(false);
+    expect(payload.has("amount")).toBe(false);
     await waitFor(() => expect(screen.getByLabelText("Full Name *")).toHaveValue(""));
+  });
+
+  it("does not send replyto when the optional email is empty", async () => {
+    vi.stubEnv("VITE_WEB3FORMS_ACCESS_KEY", "test-access-key");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ success: true }),
+      }),
+    );
+    const { container } = render(<EnquirySection />);
+
+    fireEvent.submit(fillRequiredFields(container)!);
+
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    const payload = vi.mocked(fetch).mock.calls[0]![1]!.body as FormData;
+    expect(payload.has("replyto")).toBe(false);
   });
 
   it("shows a retry message when the form service rejects a request", async () => {
